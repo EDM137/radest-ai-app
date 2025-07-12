@@ -1,0 +1,108 @@
+#!/bin/zsh
+
+# === RADEST SMART UPGRADER INTERFACE ===
+
+# Show and copy memory state
+echo "🧠 RADEST Memory Snapshot"
+echo "-------------------------"
+if [ -f ~/radest-command/context.rad ]; then
+  cat ~/radest-command/context.rad
+  pbcopy < ~/radest-command/context.rad
+  echo "📋 Memory loaded and copied to clipboard."
+else
+  echo "No saved context yet."
+fi
+echo ""
+
+# Show command menu
+echo "🛰️  RADEST Central Command"
+echo "---------------------------"
+echo "Available commands:"
+echo "1. status                → Check Firebase function"
+echo "2. deploy kindra         → Launch AI agents"
+echo "3. stripe payments       → View Stripe ledger"
+echo "4. logs notebooks        → Fetch Cloud logs"
+echo "5. open github"
+echo "6. open vercel"
+echo "7. reboot horizon"
+echo "8. dropship dashboard    → Open storefront"
+echo "9. customer sync         → Fetch orders"
+echo "10. email customers      → Start marketing flow"
+echo "11. system sync          → Manual context refresh"
+echo "q. Quit"
+echo ""
+
+read "command?Type a command (number or phrase): "
+
+case "$command:l" in
+  1|"status")
+    echo "📡 Running Firebase Status Tool..."
+    echo '{"tool":"getNotebookStatus"}' | node ~/radest-mcp/radest-firebase-server.js
+    ;;
+
+  2|"deploy kindra")
+    echo "🚀 Deploying KINDRA Core Agents..."
+    # Simulated KINDRA ops logic
+    echo "KINDRA_STATUS=active" > ~/radest-command/context.rad
+    echo "LAST_DEPLOY=$(date +%F)" >> ~/radest-command/context.rad
+    ;;
+
+  3|"stripe payments")
+    echo "📊 Pulling Stripe ledger..."
+    # Placeholder – link to Stripe logic here
+    echo "STRIPE_LEDGER_SYNC=success" >> ~/radest-command/context.rad
+    ;;
+
+  4|"logs notebooks")
+    echo "🧾 Fetching notebook logs..."
+    # Placeholder – logs fetcher
+    ;;
+
+  5|"open github")
+    echo "🔗 Opening GitHub..."
+    open "https://github.com/EDM137"
+    ;;
+
+  6|"open vercel")
+    echo "⚙️ Opening Vercel dashboard..."
+    open "https://vercel.com/dashboard"
+    ;;
+
+  7|"reboot horizon")
+    echo "♻️ Rebooting Horizon nodes..."
+    # Insert reboot logic here
+    echo "HORIZON_STATUS=rebooted" >> ~/radest-command/context.rad
+    ;;
+
+  8|"dropship dashboard")
+    echo "🛍️ Opening dropship dashboard..."
+    open "https://yourshopifydomain.myshopify.com"  # Replace with your link
+    ;;
+
+  9|"customer sync")
+    echo "🔄 Syncing customer orders..."
+    # Insert sync logic or CSV exporter
+    ;;
+
+  10|"email customers")
+    echo "📧 Launching customer email campaign..."
+    # Connect to marketing flow (Mailchimp, etc.)
+    ;;
+
+  11|"system sync")
+    echo "🔁 Running full sync + memory update..."
+    echo "LAST_SYNC=$(date +%F\ %T)" >> ~/radest-command/context.rad
+    pbcopy < ~/radest-command/context.rad
+    echo "📋 Context copied to clipboard."
+    ;;
+
+  q|"quit")
+    echo "🛑 Exiting RADEST Ops Center."
+    ;;
+
+  *)
+    echo "🤖 Unknown command: '$command'"
+    echo "Hint: Use a number or command phrase from the list."
+    ;;
+esac
+
